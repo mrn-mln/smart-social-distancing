@@ -430,7 +430,7 @@ def visualization_preparation(nn_out, distances, dist_threshold):
         else:
             score = 1.0
         # Append all processed items
-        detection_classes.append(int(obj_id))
+        detection_classes.append(int(float(obj_id)))
         detection_scores.append(score)
         detection_boxes.append(box)
         colors.append(color)
