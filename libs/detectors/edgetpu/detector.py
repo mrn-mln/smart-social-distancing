@@ -22,6 +22,9 @@ class Detector:
         elif self.name == "pedestrian_ssdlite_mobilenet_v2":
             from . import pedestrian_ssdlite_mobilenet_v2
             self.net = pedestrian_ssdlite_mobilenet_v2.Detector(self.config)
+        elif self.name == "face_mask_ssd_mobilenet_v1":
+            from . import facemask_ssd_mobilenet_v1
+            self.net = facemask_ssd_mobilenet_v1.Detector(self.config)
         else:
             raise ValueError('Not supported network named: ', self.name)
 
