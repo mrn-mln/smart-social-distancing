@@ -49,7 +49,7 @@ class Detector:
         self.output_details = self.interpreter.get_output_details()
 
         # Get class id from config
-        self.class_id = int(self.config.get_section_dict('Detector')['ClassID'])
+        # self.class_id = int(self.config.get_section_dict('Detector')['ClassID'])
         self.score_threshold = float(self.config.get_section_dict('Detector')['MinScore'])
 
     def inference(self, resized_rgb_image):
@@ -79,7 +79,7 @@ class Detector:
 
         result = []
         for i in range(boxes.shape[1]):  # number of boxes
-            if labels[0, i] == self.class_id and scores[0, i] > self.score_threshold:
-                result.append({"id": str(self.class_id) + '-' + str(i), "bbox": boxes[0, i, :], "score": scores[0, i]})
+            if scores[0, i] > self.score_threshold:
+                result.append({"id": str(labels[0, i]) + '-' + str(i), "bbox": boxes[0, i, :], "score": scores[0, i]})
 
         return result
