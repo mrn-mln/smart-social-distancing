@@ -84,7 +84,7 @@ class Distancing:
         self.running_video = True
 
         dist_threshold = float(self.config.get_section_dict("PostProcessor")["DistThreshold"])
-        class_id = int(self.config.get_section_dict('Detector')['ClassID'])
+        class_id = int(self.config.get_section_dict('Detector')['ClassID']) # TODO: for more than two classes ?!
 
         send = pubsub.init_publisher('default')  # TODO hossein: replace default with camera-id in multi-camera
         send_birds_eye = pubsub.init_publisher('default-birdseye')
@@ -95,10 +95,17 @@ class Distancing:
                 cv_image, objects, distancings = self.__process(cv_image)
                 output_dict = visualization_utils.visualization_preparation(objects, distancings, dist_threshold)
 
-                category_index = {class_id: {
+                category_index = {
+                    0: {
+                        "id": 0,
+                        "name":'Face-Mask'
+                    },
+                    class_id: {
                     "id": class_id,
-                    "name": "Pedestrian",
-                }}  # TODO: json file for detector config
+                    "name": "Face",
+                }
+                }  # TODO: json file for detector config
+
                 # Draw bounding boxes and other visualization factors on input_frame
                 visualization_utils.visualize_boxes_and_labels_on_image_array(
                     cv_image,
