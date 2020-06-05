@@ -80,6 +80,6 @@ class Detector:
         result = []
         for i in range(boxes.shape[1]):  # number of boxes
             if scores[0, i] > self.score_threshold:
-                result.append({"id": str(labels[0, i]) + '-' + str(i), "bbox": boxes[0, i, :], "score": scores[0, i]})
+                result.append({"id": str(float(labels[0, i])) + '-' + str(i), "bbox": boxes[0, i, :], "score": scores[0, i]})
 
         return result
