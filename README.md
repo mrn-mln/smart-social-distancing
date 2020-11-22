@@ -212,16 +212,12 @@ You can read and modify the configurations in `config-*.ini` files, accordingly:
 
 `config-x86-openvino.ini`: for x86 systems accelerated with Openvino
 
-Please note that if you modify these values you should also set `[App]` `HasBeenConfigured` to `"True"`.
-This allows for a client to recognize if this processor was previously configured.
-
 You can also modify some of them using the [UI](https://beta.lanthorn.ai). 
 If you choose this option, make sure to mount the config file as a volume to keep the changes after any restart of the container.
 
 All the configurations are grouped in *sections* and some of them can vary depending on the chosen device.
 
 - `[App]`
-  - `HasBeenConfigured`: A boolean parameter that states whether the *config.ini* was set up or not.
   - `Resolution`: Specifies the image resolution that the whole processor will use. If you are using a single camera we recommend using that resolution.
   - `Encoder`: Specifies the video encoder used by the processing pipeline.
   - `MaxProcesses`: Defines the number of processes executed in the processor. If you are using multiple cameras per processor we recommend increasing this number.
@@ -231,8 +227,6 @@ All the configurations are grouped in *sections* and some of them can vary depen
   - `DashboardURL`: Sets the url where the frontend is running. Unless you are using a custom domain, you should keep this value as https://beta.lanthorn.ai/.
   - `EnableSlackNotifications`: A boolean parameter to enable/disable the Slack integration for notifications and daily reports. We recommend not editing this parameter directly and manage it from the [UI](https://beta.lanthorn.ai) to configure your workspace correctly.
   - `SlackChannel`: Configures the slack channel used by the notifications. The chosen slack channel must exist in the configured workspace.
-  - `OccupancyAlertsMinInterval`:  Sets the desired interval (in seconds) between occupancy alerts.
-  - `MaxThreadRestarts`: Defines the number of restarts allowed per thread.
 
 - `[Api]`
   - `Host`: Configures the host IP of the processor's API (inside docker). We recommend don't change that value and keep it as *0.0.0.0*.
@@ -290,8 +284,7 @@ All the configurations are grouped in *sections* and some of them can vary depen
 
 
 - `[PostProcessor]`:
-  - `MaxLost`: Defines the number of frames that an object should disappear to be considered as lost.
-  - `TrackerIOUThreshold`: Configures the threshold of IoU to consider boxes at two frames as referring to the same object at IoU tracker.
+  - `MaxTrackFrame`: Defines the number of frames that an object should disappear to be considered as lost.
   - `NMSThreshold`: Configures the threshold of minimum IoU to detect two boxes as referring to the same object.
   - `DefaultDistMethod`: Defines the default distance algorithm for the cameras without *DistMethod* configuration.
   - `DistThreshold`: Configures the distance threshold for the *social distancing violations*
