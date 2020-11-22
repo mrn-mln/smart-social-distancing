@@ -122,7 +122,6 @@ class Detector:
         np.copyto(host_inputs[0], np.ravel(np_img))       
         cuda.memcpy_htod_async( 
             cuda_inputs[0], host_inputs[0], stream)       
-        stream.synchronize()    
 
         self.engine_context.execute_async(
             batch_size=1,       
