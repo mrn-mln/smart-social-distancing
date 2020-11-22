@@ -188,6 +188,20 @@ Notice: you must have Docker >= 19.03 to run the container with `--gpus` flag.
 docker run -it --gpus all -p HOST_PORT:8000 -v "$PWD/data":/repo/data -v "$PWD/config-x86.ini":/repo/config-x86.ini -v "$PWD/certificates/processor":/repo/certs -e TZ=`./timezone.sh` neuralet/smart-social-distancing:latest-x86_64_gpu
 ```
 
+##### Run on x86 with GPU using TensorRT optimization
+
+Note that you should have [Nvidia Docker Toolkit](https://github.com/NVIDIA/nvidia-docker) to run the app with GPU support
+```bash
+
+
+# 1) Build Docker image (This step is optional, you can skip it if you want to pull the container from neuralet dockerhub)
+docker build -f gpu-trt-openpifpaf.Dockerfile -t "neuralet/smart-social-distancing:gpu-trt-openpifpaf" .
+
+# 2) Run Docker container:
+Notice: you must have Docker >= 19.03 to run the container with `--gpus` flag.
+docker run -it --gpus all -p HOST_PORT:8000 -v "$PWD/data":/repo/data -v "$PWD/config-gpu-tensorrt.ini":/repo/config-gpu-tensorrt.ini -v "$PWD/certificates/processor":/repo/certs -e TZ=`./timezone.sh` neuralet/smart-social-distancing:gpu-trt-openpifpaf
+```
+
 
 ##### Run on x86 using OpenVino
 ```bash
@@ -284,8 +298,7 @@ All the configurations are grouped in *sections* and some of them can vary depen
 
 
 - `[PostProcessor]`:
-  - `MaxLost`: Defines the number of frames that an object should disappear to be considered as lost.
-  - `TrackerIOUThreshold`: Configures the threshold of IoU to consider boxes at two frames as referring to the same object at IoU tracker.
+  - `MaxTrackFrame`: Defines the number of frames that an object should disappear to be considered as lost.
   - `NMSThreshold`: Configures the threshold of minimum IoU to detect two boxes as referring to the same object.
   - `DefaultDistMethod`: Defines the default distance algorithm for the cameras without *DistMethod* configuration.
   - `DistThreshold`: Configures the distance threshold for the *social distancing violations*

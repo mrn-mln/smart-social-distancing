@@ -88,7 +88,7 @@ class Distancing:
         resized_image = cv.resize(cv_image, tuple(self.image_size[:2]))
         rgb_resized_image = cv.cvtColor(resized_image, cv.COLOR_BGR2RGB)
         tmp_objects_list = self.detector.inference(rgb_resized_image)
-
+        
         [w, h] = self.resolution
         detection_scores = []
         class_ids = []
@@ -379,6 +379,8 @@ class Distancing:
         new_objects_list = self.non_max_suppression_fast(new_objects_list,
                                                          float(self.config.get_section_dict("PostProcessor")[
                                                                    "NMSThreshold"]))
+        tracked_boxes = self.tracker.update(new_objects_list)
+        new_objects_list = [tracked_boxes[i] for i in tracked_boxes.keys()]
         for i, item in enumerate(new_objects_list):
             item["id"] = item["id"].split("-")[0] + "-" + str(i)
         distances = self.calculate_box_distances(new_objects_list)
