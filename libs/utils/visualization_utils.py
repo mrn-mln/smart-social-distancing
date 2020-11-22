@@ -261,6 +261,7 @@ def visualize_boxes_and_labels_on_image_array(
         classes,
         scores,
         colors,
+        tracked_id,
         category_index,
         instance_masks=None,
         instance_boundaries=None,
@@ -366,6 +367,8 @@ def visualize_boxes_and_labels_on_image_array(
                     facemask_label = f"Facemask: {face_index[face_labels[i]]}"
                     box_to_display_str_map[box].append(facemask_label)
 
+                box_to_display_str_map[box].append(tracked_id[i])
+
     # Draw all boxes onto image.
     for box, color in zip(boxes, colors):
         xmin, ymin, xmax, ymax = box
@@ -417,6 +420,7 @@ def visualization_preparation(nn_out, distances, dist_threshold):
     is_violating = []
     colors = []
     face_labels = []
+    track_ids = []
 
     distance = np.amin(distances + np.identity(len(distances)) * dist_threshold * 2, 0) if distances != [] else [dist_threshold]
     for i, obj in enumerate(nn_out):
@@ -444,6 +448,9 @@ def visualization_preparation(nn_out, distances, dist_threshold):
         colors.append(color)
         if "face_label" in obj:
             face_labels.append(obj["face_label"])
+        if "tracked_id" in obj:
+            track_ids.append(obj["tracked_id"])
+
         is_violating.append(True) if distance[i] < dist_threshold else is_violating.append(False)
     output_dict["detection_boxes"] = np.array(detection_boxes)
     output_dict["detection_scores"] = detection_scores
@@ -451,6 +458,7 @@ def visualization_preparation(nn_out, distances, dist_threshold):
     output_dict["violating_objects"] = is_violating
     output_dict["detection_colors"] = colors
     output_dict["face_labels"] = face_labels
+    output_dict["tacked_ids"] = track_ids
     return output_dict
 
 

@@ -226,6 +226,7 @@ class Distancing:
             output_dict["detection_classes"],
             output_dict["detection_scores"],
             output_dict["detection_colors"],
+            output_dict["tacked_ids"],
             category_index,
             instance_masks=output_dict.get("detection_masks"),
             use_normalized_coordinates=True,
