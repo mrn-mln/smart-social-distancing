@@ -348,7 +348,6 @@ def visualize_boxes_and_labels_on_image_array(
                             class_name = category_index[classes[i]]["name"]
                         else:
                             class_name = "N/A"
-                        display_str = str(class_name)
                 if not skip_scores:
                     if not display_str:
                         display_str = "{}%".format(int(100 * scores[i]))
@@ -356,6 +355,9 @@ def visualize_boxes_and_labels_on_image_array(
                         display_str = "{}: {}%".format(
                             display_str, int(100 * scores[i])
                         )
+                display_str = "{}, ID:{}".format(
+                        display_str, str(tracked_id[i]))
+
                 box_to_display_str_map[box].append(display_str)
                 if agnostic_mode:
                     box_to_color_map[box] = "DarkOrange"
@@ -366,8 +368,6 @@ def visualize_boxes_and_labels_on_image_array(
                 if face_labels:
                     facemask_label = f"Facemask: {face_index[face_labels[i]]}"
                     box_to_display_str_map[box].append(facemask_label)
-
-                box_to_display_str_map[box].append(tracked_id[i])
 
     # Draw all boxes onto image.
     for box, color in zip(boxes, colors):
