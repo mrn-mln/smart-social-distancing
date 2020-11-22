@@ -19,7 +19,7 @@ tensorrtName="/repo/data/tensorrt/openpifpaf_resnet50_${width}_${height}_d${prec
 
 if [ ! -f $tensorrtName ]; then
 	echo ############## Generating TensorRT Engine ######################
-	onnx2trt $onnxName -o $tensorrtName -d $precision
+	onnx2trt $onnxName -o $tensorrtName -d $precision -b 1
 fi	
 
 
