@@ -125,6 +125,7 @@ class Distancing:
         face_mask_results, scores = self.classifier.inference(faces)
 
         tracks = self.tracker.update(detection_bboxes, class_ids, detection_scores)
+        tracked_objects_list = []
         idx = 0
         for obj in tmp_objects_list:
             if self.classifier is not None and 'face' in obj.keys():
@@ -148,8 +149,10 @@ class Distancing:
                 if functools.reduce(lambda x, y: x and y, map(lambda p, q: p == q, selected_box, track_bbox), True):
                     obj["tracked_id"] = trackid
                     obj["track_info"] = track_info
+                    tracked_objects_list.append(obj)
 
-        objects_list, distancings = self.calculate_distancing(tmp_objects_list)
+        # objects_list, distancings = self.calculate_distancing(tmp_objects_list)
+        objects_list, distancings = self.calculate_distancing(tracked_objects_list)
         anonymize = self.config.get_section_dict('PostProcessor')['Anonymize'] == "true"
         if anonymize:
             cv_image = self.anonymize_image(cv_image, objects_list)
