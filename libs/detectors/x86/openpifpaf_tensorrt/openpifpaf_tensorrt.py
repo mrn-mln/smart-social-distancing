@@ -45,7 +45,7 @@ class Detector:
         precision=int(self.config.get_section_dict('Detector')['TensorrtPrecision'])
         TRTbinPath='/repo/data/tensorrt/openpifpaf_resnet50_{}_{}_d{}.trt'.format(self.w,self.h,precision)
         if not os.path.exists(TRTbinPath):
-            os.system('bash /repo/generate_tensorrt.bash config-x86.ini')
+            os.system('bash /repo/generate_tensorrt.bash config-gpu-tensorrt.ini')
         with open(TRTbinPath, 'rb') as f, trt.Runtime(self.trt_logger) as runtime:    
             return runtime.deserialize_cuda_engine(f.read())
 
