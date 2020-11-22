@@ -111,4 +111,4 @@ ENV AWS_CONFIG_FILE=/repo/.aws/config
 COPY . /repo
 WORKDIR /repo
 ENTRYPOINT ["bash", "start_services.bash"]
-CMD ["config-x86.ini"]
+CMD ["config-gpu-tensorrt.ini"]
