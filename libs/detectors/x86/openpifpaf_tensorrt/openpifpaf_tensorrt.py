@@ -195,7 +195,6 @@ class Detector:
 
             # extracting face bounding box
             if np.all(pred[[0, 1, 2, 5, 6], -1] > 0.15):
-                print('in if face')
                 x_min_face = int(pred[6, 0])
                 x_max_face = int(pred[5, 0])
                 y_max_face = int((pred[5, 1] + pred[6, 1]) / 2)
